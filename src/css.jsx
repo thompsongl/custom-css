@@ -1,6 +1,7 @@
 
 var React = require('react');
 var postcss = require('postcss');
+var cssnext = require('cssnext');
 var customProperties = require('postcss-custom-properties');
 var customMedia = require('postcss-custom-media');
 var calc = require('postcss-calc');
@@ -14,10 +15,11 @@ var Css = React.createClass({
       modules: [],
       included: [],
       defaults: {},
+      customMedia: {}
     }
   },
 
-  compileCss: function(defaults) {
+  compileCss: function(defaults, customMedia) {
     var self = this;
     var css = '';
 
@@ -28,12 +30,22 @@ var Css = React.createClass({
         css += src;
       }
     });
-    
+
     var result = postcss()
-      .use(customMedia())
-      .use(customProperties({ variables: defaults }))
-      .use(calc())
-      .use(colorFunction())
+      .use(cssnext({
+        features: {
+          customMedia: {
+            extensions: customMedia
+          },
+          customProperties: {
+            variables: defaults
+          }
+        },
+        browsers: [
+          'Last 2 versions',
+          'IE >= 9'
+        ]
+      }))
       .process(css).css;
     var blob = new Blob([result], { type: 'text/plain' });
     var url = (window.URL || window.webkitURL).createObjectURL( blob );
@@ -42,7 +54,7 @@ var Css = React.createClass({
 
 
   render: function() {
-    var obj = this.compileCss(this.props.defaults);
+    var obj = this.compileCss(this.props.defaults, this.props.customMedia);
     var code = { __html: obj.css };
     var fileSize = humanize.fileSize(obj.blob.size);
     var download = obj.download;

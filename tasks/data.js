@@ -10,6 +10,7 @@ module.exports = function(options) {
     dirname: '.',
     modules: [],
     variables: [],
+    customMedia: {}
   });
 
 
@@ -28,7 +29,22 @@ module.exports = function(options) {
     });
   });
 
+  data.initialCustomMedia = {};
+  options.customMedia.forEach(function(name) {
+    var css = modinfo(name, { dirname: options.dirname }).css;
+    var root = postcss.parse(css);
+    root.eachAtRule(function(rule) {
+      if (rule.name !== "custom-media") {
+        return;
+      }
+      var keyRegex = /^\-\-([^\s]+)/;
+      var key = keyRegex.exec(rule.params);
+      var valRegex = /\(([^)]+)\)/;
+      var val = valRegex.exec(rule.params);
+      data.initialCustomMedia[key[0]] = val[0];
+    });
+  });
+
   return data;
 
 };
-

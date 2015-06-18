@@ -10,7 +10,8 @@ var CustomCss = React.createClass({
   getDefaultProps: function() {
     return {
       modules: [],
-      initialDefaults: {}
+      initialDefaults: {},
+      initialCustomMedia: {}
     }
   },
 
@@ -19,6 +20,7 @@ var CustomCss = React.createClass({
       included: [],
       compiled: '',
       defaults: this.props.initialDefaults,
+      customMedia: this.props.initialCustomMedia
     }
   },
 
@@ -75,4 +77,3 @@ var CustomCss = React.createClass({
 });
 
 module.exports = CustomCss;
-
