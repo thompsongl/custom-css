@@ -20,17 +20,18 @@ var ModulesList = React.createClass({
       self.props.toggleActive(i);
     };
     return (
-      <li key={'module-'+m.name}>
-        <label className={classnames('block', 'flex', 'flex-center', 'flex-wrap', 'border-bottom', { 'bg-aqua': active })}>
-          <div className="flex flex-center">
+      <li key={'module-'+m.name} className="u-mV0 u-borderB u-borderGrayLighter" style={{listStyleType: 'none'}}>
+        <label className={classnames('u-block u-pA3 u-cf', { 'u-bgBlueLighter': active })}>
             <input type="checkbox"
               checked={active}
               onChange={handleChange}
-              className="m1" />
-            <h3 className="h4 flex-auto m0 p1">{m.name}</h3>
+              className="u-inlineBlock u-alignMiddle"
+            />
+          <div className="u-inlineBlock u-mL3">
+            <span className="u-fontBold u-fontSansSerif u-inlineBlock u-alignMiddle">{m.name}</span>
+            <div className="u-fontSmall u-fontSansSerif u-inlineBlock u-alignMiddle u-mL6 u-fontGrayLight">{m.description}</div>
           </div>
-          <div className="h5 flex-auto px1">{m.description}</div>
-          <div className="h5 bold px1">v{m.version}</div>
+          <div className="u-fontSmall u-fontSansSerif u-inlineBlock u-mT1 u-floatRight u-fontGrayLight">v{m.version}</div>
         </label>
       </li>
     )
@@ -39,22 +40,20 @@ var ModulesList = React.createClass({
   render: function() {
     return (
       <div className={this.props.className + 'overflow-hidden'}>
-        <div className="flex flex-baseline mxn1">
-          <h3 className="flex-auto px1">Modules</h3>
-          <div className="px1">
-            <button className="button button-small button-link"
+        <div className="">
+          <h3 className="">Components</h3>
+          <div className="u-textRight u-mB3">
+            <button className="Button Button--small Button--link"
               onClick={this.props.selectAll}>
               Select All
             </button>
-          </div>
-          <div className="px1">
-            <button className="button button-small button-link"
+            <button className="Button Button--small Button--link"
               onClick={this.props.selectNone}>
               Select None
             </button>
           </div>
         </div>
-        <ul className="list-reset border-top">
+        <ul className="u-mL0">
           {this.props.modules.map(this.renderModule)}
         </ul>
       </div>

@@ -62,20 +62,22 @@ var Css = React.createClass({
       maxHeight: '40vh'
     };
     return (
-      <div className="overflow-hidden">
-        <div className="flex flex-center flex-wrap mb2 mxn1">
-          <h3 className="m0 px1 flex-auto">Compiled CSS</h3>
-          <div className="h5 bold px1">{fileSize}</div>
-          <a href={download}
-            className="button ml1 mr1"
-            download="basscss-custom.css">
-            Download
-          </a>
+      <div className="Markdown u-nbfc">
+        <div className="">
+          <h3 className="u-m0 u-pT3">Compiled CSS</h3>
+          <div className="u-textRight u-pB3">
+            <span className="u-fontStrong u-inlineBlock u-alignMiddle">{fileSize}</span>
+            <a href={download}
+              className="Button Button--primary u-inlineBlock u-alignMiddle u-mL3"
+              download="style-custom.css">
+              Download
+            </a>
+          </div>
         </div>
         <pre dangerouslySetInnerHTML={code} style={preStyle} />
         <a href={download}
-          className="button"
-          download="basscss-custom.css">
+          className="Button Button--primary"
+          download="style-custom.css">
           Download
         </a>
       </div>

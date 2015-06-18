@@ -62,13 +62,10 @@ var CustomCss = React.createClass({
     return (
       <div>
         <ModulesList {...this.props} {...this.state}
-          className="mb3"
+          className="u-mB3"
           toggleActive={this.toggleActive}
           selectAll={this.selectAll}
           selectNone={this.selectNone} />
-        <Variables {...this.props} {...this.state}
-          className="mb3"
-          updateDefaults={this.updateDefaults} />
         <Css {...this.props} {...this.state} />
       </div>
     )
