@@ -43,10 +43,12 @@ options.variables = [
   'basscss-defaults'
 ];
 
+options.customMedia = [
+  'basscss-defaults'
+];
+
 options.dirname = path.join(__dirname, '..');
 
 data = generateData(options);
 
 fs.writeFileSync(path.join(__dirname, './data.json'), JSON.stringify(data));
-
-

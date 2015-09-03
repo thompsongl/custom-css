@@ -1,6 +1,7 @@
 
 var React = require('react');
 var postcss = require('postcss');
+var cssnext = require('cssnext');
 var customProperties = require('postcss-custom-properties');
 var customMedia = require('postcss-custom-media');
 var calc = require('postcss-calc');
@@ -14,10 +15,11 @@ var Css = React.createClass({displayName: "Css",
       modules: [],
       included: [],
       defaults: {},
+      customMedia: {}
     }
   },
 
-  compileCss: function(defaults) {
+  compileCss: function(defaults, customMedia) {
     var self = this;
     var css = '';
 
@@ -28,12 +30,22 @@ var Css = React.createClass({displayName: "Css",
         css += src;
       }
     });
-    
+
     var result = postcss()
-      .use(customMedia())
-      .use(customProperties({ variables: defaults }))
-      .use(calc())
-      .use(colorFunction())
+      .use(cssnext({
+        features: {
+          customMedia: {
+            extensions: customMedia
+          },
+          customProperties: {
+            variables: defaults
+          }
+        },
+        browsers: [
+          'Last 2 versions',
+          'IE >= 9'
+        ]
+      }))
       .process(css).css;
     var blob = new Blob([result], { type: 'text/plain' });
     var url = (window.URL || window.webkitURL).createObjectURL( blob );
@@ -42,7 +54,7 @@ var Css = React.createClass({displayName: "Css",
 
 
   render: function() {
-    var obj = this.compileCss(this.props.defaults);
+    var obj = this.compileCss(this.props.defaults, this.props.customMedia);
     var code = { __html: obj.css };
     var fileSize = humanize.fileSize(obj.blob.size);
     var download = obj.download;
@@ -50,20 +62,22 @@ var Css = React.createClass({displayName: "Css",
       maxHeight: '40vh'
     };
     return (
-      React.createElement("div", {className: "overflow-hidden"}, 
-        React.createElement("div", {className: "flex flex-center flex-wrap mb2 mxn1"}, 
-          React.createElement("h3", {className: "m0 px1 flex-auto"}, "Compiled CSS"), 
-          React.createElement("div", {className: "h5 bold px1"}, fileSize), 
-          React.createElement("a", {href: download, 
-            className: "button ml1 mr1", 
-            download: "basscss-custom.css"}, 
-            "Download"
+      React.createElement("div", {className: "Markdown u-nbfc"}, 
+        React.createElement("div", {className: ""}, 
+          React.createElement("h3", {className: "u-m0 u-pT3"}, "Compiled CSS"), 
+          React.createElement("div", {className: "u-textRight u-pB3"}, 
+            React.createElement("span", {className: "u-fontStrong u-inlineBlock u-alignMiddle"}, fileSize), 
+            React.createElement("a", {href: download, 
+              className: "Button Button--primary u-inlineBlock u-alignMiddle u-mL3", 
+              download: "style-custom.css"}, 
+              "Download"
+            )
           )
         ), 
         React.createElement("pre", {dangerouslySetInnerHTML: code, style: preStyle}), 
         React.createElement("a", {href: download, 
-          className: "button", 
-          download: "basscss-custom.css"}, 
+          className: "Button Button--primary", 
+          download: "style-custom.css"}, 
           "Download"
         )
       )

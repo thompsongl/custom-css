@@ -10,7 +10,8 @@ var CustomCss = React.createClass({displayName: "CustomCss",
   getDefaultProps: function() {
     return {
       modules: [],
-      initialDefaults: {}
+      initialDefaults: {},
+      initialCustomMedia: {}
     }
   },
 
@@ -19,6 +20,7 @@ var CustomCss = React.createClass({displayName: "CustomCss",
       included: [],
       compiled: '',
       defaults: this.props.initialDefaults,
+      customMedia: this.props.initialCustomMedia
     }
   },
 
@@ -60,13 +62,10 @@ var CustomCss = React.createClass({displayName: "CustomCss",
     return (
       React.createElement("div", null, 
         React.createElement(ModulesList, React.__spread({},  this.props,  this.state, 
-          {className: "mb3", 
+          {className: "u-mB3", 
           toggleActive: this.toggleActive, 
           selectAll: this.selectAll, 
           selectNone: this.selectNone})), 
-        React.createElement(Variables, React.__spread({},  this.props,  this.state, 
-          {className: "mb3", 
-          updateDefaults: this.updateDefaults})), 
         React.createElement(Css, React.__spread({},  this.props,  this.state))
       )
     )
@@ -75,4 +74,3 @@ var CustomCss = React.createClass({displayName: "CustomCss",
 });
 
 module.exports = CustomCss;
-
